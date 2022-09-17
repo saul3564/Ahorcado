@@ -1,0 +1,36 @@
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+.principal {
+    background-color: aquamarine;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.contenido {
+    background-color: aqua;
+    width: 600px;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+}
+
+#inputChar {
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    height: 50px;
+    width: 50px;
+    font-size: 48px;
+    text-align: center;
+    resize: none;
+    overflow: hidden;
+    padding: 0;
+    pointer-events: none;
+}

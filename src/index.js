@@ -43,11 +43,15 @@ function elegirPalabra() {
 * Llama a una funcion para escribir en los textArea.
 */
 function obtenerTecla(tecla) {
-    const regEx = /[A-Z]/
+    const regEx = /[A-Z]\b/
+    let posicion = undefined
 
     if(regEx.test(tecla.key) && tecla.key !== 'Enter') {
         if(palabra.includes(tecla.key)) {
-            escribirTextArea(tecla.key, buscarLetras(palabra, tecla.key))
+            posicion = buscarLetras(palabra, tecla.key)
+            escribirTextArea(tecla.key, posicion)
+        } else { 
+            console.log(tecla.key)
         }
     }
     verificarTextArea(palabra)
@@ -86,7 +90,7 @@ function escribirTextArea(letra, posicion) {
     }
 }
 
-/* 
+/* TODO: Terminar el juego.
 * Verifica que la palabra haya sido completada, de ser asi, debe terminar el juego.
 */
 function verificarTextArea(palabra) {
@@ -101,4 +105,5 @@ function verificarTextArea(palabra) {
         }
     })
     //Terminar el juego
+    if(palabra.length === contador) console.log('Ganaste el juego.')
 }

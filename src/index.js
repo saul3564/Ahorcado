@@ -6,7 +6,7 @@ let palabra = undefined
 window.addEventListener("load", elegirPalabra)
 
 
-addEventListener("keypress", obtenerTecla)
+addEventListener("keyup", obtenerTecla)
 
 /* 
 * Crea un elemento de tipo TextArea con sus respectivas propiedades.
@@ -21,6 +21,7 @@ function generarTextArea(numero) {
     textArea.id = 'inputChar'
     textArea.className = 'letra' + numero
     textArea.maxLength = 1
+    textArea.readOnly = 'readonly'
     contenedor.appendChild(textArea)
 }
 

@@ -9,12 +9,14 @@ html, body {
     height: 100%;
     display: flex;
     align-items: center;
+    flex-flow: column;
+    justify-content: center;
 }
 
 .contenido {
     background-color: aqua;
     width: 600px;
-    margin: auto;
+    /* margin: auto; */
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -33,4 +35,10 @@ html, body {
     overflow: hidden;
     padding: 0;
     pointer-events: none;
+}
+
+.letrasError {
+    background-color: darkcyan;
+    width: 600px;
+    height: 100px;
 }

@@ -1,28 +1,32 @@
 
-//palabras de maximo 8 caracteres.
 let listaPalabras = ["SABATINO", "BIGPINK", "TECLADO", "PINTURA"]
 let palabra = undefined
+let finDelJuego = false
 
 window.addEventListener("load", elegirPalabra)
 
-
-addEventListener("keyup", obtenerTecla)
-
+if(finDelJuego === false) {
+	document.addEventListener("keyup", obtenerTecla, true)
+}
 /* 
 * Crea un elemento de tipo TextArea con sus respectivas propiedades.
 * Agrega el elemento al div 'Contenedor'.
 */
-function generarTextArea(numero) {
-    let textArea = document.createElement('textarea')
+function generarTextArea() {
+	let contador = 0
     const contenedor = document.getElementById('contenido')
 
-    textArea.textContent = ''
-    textArea.name = 'input'
-    textArea.id = 'inputChar'
-    textArea.className = 'letra' + numero
-    textArea.maxLength = 1
-    textArea.readOnly = 'readonly'
-    contenedor.appendChild(textArea)
+	while(contador < palabra.length) {
+        let textArea = document.createElement('textarea')
+		textArea.textContent = ''
+		textArea.name = 'input'
+		textArea.id = 'inputChar'
+		textArea.className = 'letra' + contador
+		textArea.maxLength = 1
+		textArea.readOnly = 'readonly'
+		contenedor.appendChild(textArea)		
+        ++contador
+	}
 }
 
 /* 
@@ -32,7 +36,7 @@ function generarTextArea(numero) {
 function elegirPalabra() {
     const posicion = Math.floor((Math.random() * ((listaPalabras.length - 1) + 1)))
     palabra = listaPalabras[posicion]
-    for(let numero = 0; numero < palabra.length;numero++) generarTextArea(numero)
+	generarTextArea()
 }
 
 /* 
@@ -105,5 +109,9 @@ function verificarTextArea(palabra) {
         }
     })
     //Terminar el juego
-    if(palabra.length === contador) console.log('Ganaste el juego.')
+    if(palabra.length === contador) {
+		finDelJuego = true
+		console.log("Ganaste el juego!.")
+        document.removeEventListener("keyup", obtenerTecla, true)
+	}
 }

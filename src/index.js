@@ -1,3 +1,5 @@
+const lienzo = document.getElementById("canvas")
+const pincel = lienzo.getContext('2d')
 
 let listaPalabras = ["SABATINO", "BIGPINK", "TECLADO", "PINTURA"]
 let palabra = undefined
@@ -6,8 +8,34 @@ let finDelJuego = false
 window.addEventListener("load", elegirPalabra)
 
 if(finDelJuego === false) {
-	document.addEventListener("keyup", obtenerTecla, true)
+    document.addEventListener("keyup", obtenerTecla, true)
 }
+
+/* 
+* Dibuja una linea base en el canvas.
+*/
+function dibujarBaseCanvas() {
+	
+	pincel.beginPath()
+	pincel.lineWidth = 3
+	pincel.strokeStyle = "black"
+	pincel.moveTo(0, 340)
+	pincel.lineTo(280, 340)
+	pincel.lineCap = "round"
+	pincel.stroke()
+}
+
+/* 
+* Genera un numero aleatorio para determinar la posicion de la palabra que se utilizara.
+* Ejecuta la funcion generadora de TextArea proporcional a la longitud de la palabra.
+*/
+function elegirPalabra() {
+    const posicion = Math.floor((Math.random() * ((listaPalabras.length - 1) + 1)))
+    palabra = listaPalabras[posicion]
+    dibujarBaseCanvas()
+    generarTextArea()
+}
+
 /* 
 * Crea un elemento de tipo TextArea con sus respectivas propiedades.
 * Agrega el elemento al div 'Contenedor'.
@@ -27,16 +55,6 @@ function generarTextArea() {
 		contenedor.appendChild(textArea)		
         ++contador
 	}
-}
-
-/* 
-* Genera un numero aleatorio para determinar la posicion de la palabra que se utilizara.
-* Ejecuta la funcion generadora de TextArea proporcional a la longitud de la palabra.
-*/
-function elegirPalabra() {
-    const posicion = Math.floor((Math.random() * ((listaPalabras.length - 1) + 1)))
-    palabra = listaPalabras[posicion]
-	generarTextArea()
 }
 
 /* 

@@ -1,12 +1,21 @@
-
-html, body {
+html,
+body {
     margin: 0;
     height: 100%;
 }
 
+.header {
+    height: 88px;
+    background-color: #F3F5FC;
+}
+
+.header img {
+    margin: 40px 0 0 85px;
+}
+
 .principal {
-    background-color: aquamarine;
-    height: 100%;
+    background-color: #F3F5FC;
+    /* height: 100%; */
     display: flex;
     align-items: center;
     flex-flow: column;
@@ -14,18 +23,21 @@ html, body {
 }
 
 .contenido {
-    background-color: aqua;
+    /* background-color: aqua; */
     width: 600px;
     /* margin: auto; */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100px;
+    /* border: 1px solid blueviolet; */
 }
 
 #inputChar {
     border: none;
-    border-bottom: 2px solid black;
+    background-color: #F3F5FC;
+    border-bottom: 3px solid #0A3871;
+    color: #0A3871;
     outline: none;
     height: 50px;
     width: 50px;
@@ -39,7 +51,64 @@ html, body {
 }
 
 .letrasError {
-    background-color: darkcyan;
     width: 600px;
     height: 100px;
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letraInc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 2;
+    /* border: 1px solid blue; */
+    height: 100%;
+    font-size: 50px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container-buttons {
+    /* border: 1px solid purple; */
+    display: flex;
+    width: 600px;
+    justify-content: center;
+}
+
+.button {
+    width: 280px;
+    height: 57px;
+    border-radius: 24px;
+    font-size: 15px;
+    border: none;
+}
+
+.nuevoJuego {
+    margin: 0 24px 0 0;
+    background-color: #0A3871;
+    color: #F3F5FC;
+}
+
+.nuevoJuego:active {
+    background-color: #072c5a;
+    color: #e6e6e6;
+}
+
+.desistir {
+    background-color: #F3F5FC;
+    border: 1px solid #0A3871;
+    color: #0A3871;
+}
+
+.desistir:active {
+    background-color: #e6e6e6;
+    color: #0A3871;
+}
+
+@media screen and (max-width: 630px) {
+
+    
+
 }

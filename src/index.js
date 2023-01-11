@@ -1,19 +1,20 @@
 const lienzo = document.getElementById("canvas")
 const pincel = lienzo.getContext('2d')
 
-let listaPalabras = ["SABATINO", "BIGPINK", "TECLADO", "PINTURA"]
-let palabra = undefined
+let listaPalabras = ["SABATINO", "BIGPINK", "TECLADO", "PINTURA", "HTML", "VSCODE"]
+let palabra = ""
 let finDelJuego = false
 let error = 0
+let contenido = false
 
 //Figuras que hacen al ahorcado.
 let valoresLinea = [
-    //Poste o linea en vertical.
+	//Poste o linea en vertical.
 	{
 		error: 1,
 		moveToX: 50,
 		moveToY: 340,
-		lineToX: 50, 
+		lineToX: 50,
 		lineToY: 20
 	},
 
@@ -22,20 +23,20 @@ let valoresLinea = [
 		error: 2,
 		moveToX: 50,
 		moveToY: 20,
-		lineToX: 200, 
+		lineToX: 200,
 		lineToY: 20
 	},
-	
-    //Linea en diagonal formando un triangulo con el poste y la horizontal.
+
+	//Linea en diagonal formando un triangulo con el poste y la horizontal.
 	{
 		error: 3,
 		moveToX: 50,
 		moveToY: 50,
-		lineToX: 80, 
+		lineToX: 80,
 		lineToY: 20
 	},
-	
-    //Cuerda que cuelga de la linea horizontal.
+
+	//Cuerda que cuelga de la linea horizontal.
 	{
 		error: 4,
 		moveToX: 200,
@@ -43,8 +44,8 @@ let valoresLinea = [
 		lineToX: 200,
 		lineToY: 70
 	},
-	
-    //Cabeza del personaje.
+
+	//Cabeza del personaje.
 	{
 		error: 5,
 		arcX: 200,
@@ -52,8 +53,8 @@ let valoresLinea = [
 		radio: 20,
 		angulo: 0
 	},
-	
-    //Tronco del personaje.
+
+	//Tronco del personaje.
 	{
 		error: 6,
 		moveToX: 200,
@@ -61,8 +62,8 @@ let valoresLinea = [
 		lineToX: 200,
 		lineToY: 180
 	},
-	
-    //Brazo derecho del personaje.
+
+	//Brazo derecho del personaje.
 	{
 		error: 7,
 		moveToX: 200,
@@ -70,8 +71,8 @@ let valoresLinea = [
 		lineToX: 220,
 		lineToY: 150
 	},
-	
-    //Brazo izquierdo del personaje.
+
+	//Brazo izquierdo del personaje.
 	{
 		error: 8,
 		moveToX: 200,
@@ -79,8 +80,8 @@ let valoresLinea = [
 		lineToX: 180,
 		lineToY: 150
 	},
-	
-    //Pierna derecha del personaje.
+
+	//Pierna derecha del personaje.
 	{
 		error: 9,
 		moveToX: 200,
@@ -88,8 +89,8 @@ let valoresLinea = [
 		lineToX: 180,
 		lineToY: 220
 	},
-	
-    //Pierna izquierda del personaje.
+
+	//Pierna izquierda del personaje.
 	{
 		error: 10,
 		moveToX: 200,
@@ -101,18 +102,18 @@ let valoresLinea = [
 
 window.addEventListener("load", elegirPalabra)
 
-if(finDelJuego === false) {
-    document.addEventListener("keyup", obtenerTecla, true)
+if (finDelJuego === false) {
+	document.addEventListener("keyup", obtenerTecla, true)
 }
 
 /* 
 * Dibuja una linea base en el canvas.
 */
 function dibujarBaseCanvas() {
-	
+
 	pincel.beginPath()
 	pincel.lineWidth = 3
-	pincel.strokeStyle = "black"
+	pincel.strokeStyle = "#0A3871"
 	pincel.moveTo(0, 340)
 	pincel.lineTo(280, 340)
 	pincel.lineCap = "round"
@@ -125,10 +126,10 @@ function dibujarBaseCanvas() {
 * Ejecuta la funcion que dibuja la base del ahorcado.
 */
 function elegirPalabra() {
-    const posicion = Math.floor((Math.random() * ((listaPalabras.length - 1) + 1)))
-    palabra = listaPalabras[posicion]
-    dibujarBaseCanvas()
-    generarTextArea()
+	const posicion = Math.floor((Math.random() * ((listaPalabras.length - 1) + 1)))
+	palabra = listaPalabras[posicion]
+	dibujarBaseCanvas()
+	generarTextArea()
 }
 
 /* 
@@ -137,18 +138,18 @@ function elegirPalabra() {
 */
 function generarTextArea() {
 	let contador = 0
-    const contenedor = document.getElementById('contenido')
+	const contenedor = document.getElementById('contenido')
 
-	while(contador < palabra.length) {
-        let textArea = document.createElement('textarea')
+	while (contador < palabra.length) {
+		let textArea = document.createElement('textarea')
 		textArea.textContent = ''
 		textArea.name = 'input'
 		textArea.id = 'inputChar'
 		textArea.className = 'letra' + contador
 		textArea.maxLength = 1
 		textArea.readOnly = 'readonly'
-		contenedor.appendChild(textArea)		
-        ++contador
+		contenedor.appendChild(textArea)
+		++contador
 	}
 }
 
@@ -166,25 +167,58 @@ function generarTextArea() {
   de 'Game Over!!' y remueve el evento 'keyup'.
 */
 function obtenerTecla(tecla) {
-    const regEx = /[A-Z]\b/
-    let posicion = undefined
+	const regEx = /[A-Z]\b/
+	let posicion = undefined
 
-    if(regEx.test(tecla.key) && tecla.key !== 'Enter') {
-        if(palabra.includes(tecla.key)) {
-            posicion = buscarLetras(palabra, tecla.key)
-            escribirTextArea(tecla.key, posicion)
-        } else {
-            error += 1
-            mostrarFiguras()
-            if(error === 10) {
-                error = 0
-                finDelJuego = true
-                console.log("Game over!!.")
-                document.removeEventListener('keyup', obtenerTecla, true)
-            }
-        }
-    }
-    verificarTextArea(palabra)
+	if (regEx.test(tecla.key) && tecla.key !== 'Enter') {
+		if (palabra.includes(tecla.key)) {
+			posicion = buscarLetras(palabra, tecla.key)
+			escribirTextArea(tecla.key, posicion)
+		} else {
+
+			if (contenido === false) {
+				mostrarLetra(tecla.key)
+				contenido = true
+				error += 1
+				mostrarFiguras()
+			} else if (!letraRepetida(tecla.key)) {
+				mostrarLetra(tecla.key)
+				error += 1
+				mostrarFiguras()
+			}
+
+			if (error === 10) {
+				error = 0
+				finDelJuego = true
+				console.log("Game over!!.")
+				document.removeEventListener('keyup', obtenerTecla, true)
+			}
+		}
+	}
+	if(palabra !== "") verificarTextArea(palabra)
+}
+
+function mostrarLetra(letra) {
+	const container = document.getElementById("letrasError")
+	const span = document.createElement('span')
+
+	span.textContent = letra
+	span.className = "letraInc"
+	container.appendChild(span)
+}
+
+function letraRepetida(letra) {
+	const container = document.getElementById("letrasError")
+	let existe = false
+
+	container.childNodes.forEach(element => {
+		if (element.nodeName !== "#text") {
+			if (element.textContent === letra) {
+				existe = true
+			}
+		}
+	})
+	return existe
 }
 
 /* 
@@ -194,21 +228,21 @@ function obtenerTecla(tecla) {
   el error numero 5.
 */
 function mostrarFiguras() {
-	
+
 	valoresLinea.forEach(element => {
-		if(error === element.error && error !== 5) {
+		if (error === element.error && error !== 5) {
 			pincel.beginPath()
 			pincel.lineWidth = 3
-			pincel.strokeStyle = "black"
+			pincel.strokeStyle = "#0A3871"
 			pincel.moveTo(element.moveToX, element.moveToY)
 			pincel.lineTo(element.lineToX, element.lineToY)
 			pincel.lineCap = "round"
 			pincel.stroke()
-		} else if(error === 5) {
+		} else if (error === 5) {
 			pincel.beginPath()
 			pincel.lineWidth = 3
-			pincel.strikeStyle = "black"
-			pincel.arc(element.arcX, element.arcY, element.radio, element.angulo, 2*Math.PI)
+			pincel.strikeStyle = "#0A3871"
+			pincel.arc(element.arcX, element.arcY, element.radio, element.angulo, 2 * Math.PI)
 			pincel.stroke()
 		}
 	})
@@ -221,50 +255,50 @@ function mostrarFiguras() {
 */
 function buscarLetras(palabra, letra) {
 
-    let posicion = []
-    let posicionLetra = palabra.indexOf(letra);
+	let posicion = []
+	let posicionLetra = palabra.indexOf(letra);
 
-    while ( posicionLetra !== -1 ) {
-        posicion.push(palabra.indexOf(letra, posicionLetra))
-        posicionLetra = palabra.indexOf(letra, posicionLetra + 1)
-    }
+	while (posicionLetra !== -1) {
+		posicion.push(palabra.indexOf(letra, posicionLetra))
+		posicionLetra = palabra.indexOf(letra, posicionLetra + 1)
+	}
 
-    return posicion
+	return posicion
 }
 
 /* 
 * La letra que fue precionada, la agrega al textArea correspondiente.
 */
 function escribirTextArea(letra, posicion) {
-    if(posicion.length > 1) {
-        for(let i = 0;i < posicion.length;i++) {
-            const textArea = document.querySelector('.letra' + posicion[i])
-            textArea.textContent = letra;
-        }
-    } else {
-        let textArea = document.querySelector('.letra' + posicion[0])
-        textArea.textContent = letra;
-    }
+	if (posicion.length > 1) {
+		for (let i = 0; i < posicion.length; i++) {
+			const textArea = document.querySelector('.letra' + posicion[i])
+			textArea.textContent = letra;
+		}
+	} else {
+		let textArea = document.querySelector('.letra' + posicion[0])
+		textArea.textContent = letra;
+	}
 }
 
 /* TODO: Terminar el juego.
 * Verifica que la palabra haya sido completada, de ser asi, debe terminar el juego.
 */
 function verificarTextArea(palabra) {
-    const contenedor = document.getElementById('contenido')
-    let contador = 0
+	const contenedor = document.getElementById('contenido')
+	let contador = 0
 
-    contenedor.childNodes.forEach((element) => {
-        if(element.nodeName !== '#text') {
-            if(element.textContent !== '') {
-                ++contador
-            }
-        }
-    })
-    //Terminar el juego
-    if(palabra.length === contador) {
+	contenedor.childNodes.forEach((element) => {
+		if (element.nodeName !== '#text') {
+			if (element.textContent !== '') {
+				++contador
+			}
+		}
+	})
+	//Terminar el juego
+	if (palabra.length === contador) {
 		finDelJuego = true
 		console.log("Ganaste el juego!.")
-        document.removeEventListener("keyup", obtenerTecla, true)
+		document.removeEventListener("keyup", obtenerTecla, true)
 	}
 }
